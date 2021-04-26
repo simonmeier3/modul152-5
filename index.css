@@ -1,3 +1,6 @@
+body{
+    background-color: #EAE7DC;
+}
 #textEditor{
     width: 50%;
     position: absolute;
@@ -16,6 +19,8 @@
     width:600px;
     border:1px solid #ACD8F0;
     overflow:auto;
+    background: white;
+    font-family: Arial, serif;
 }
 #sendButton{
     background-color: white;
@@ -33,4 +38,8 @@
 #sendButton:hover{
     background-color: #4CAF50;
     color: white;
+}
+
+#ownMessage{
+    background: #2b2b2b;
 }

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div id="chat">
+<div id="chat" contenteditable="true">
 
 </div>
 
@@ -33,15 +33,19 @@
         let username = document.getElementById('username').value;
         const valueToSend = document.querySelector('#content').value;
         if(username === null || username === ''){
-            alert('Please enter a username!')
+            alert('Please enter a username!');
         }
-        if(valueToSend === null || valueToSend === ''){
-            alert('Please enter something to send!')
+        else if(valueToSend === null || valueToSend === ''){
+            alert('Please enter something to send!');
         }
         else {
             let message = '#' + username + ':' + '<br>' + valueToSend;
             wsClient.send(message);
-            document.querySelector('#chat').innerHTML += '#You:' + '<br>' + valueToSend;
+            let ownMessage = document.createElement('div');
+            ownMessage.style.background = '#EAE7DC';
+            ownMessage.style.textAlign = 'right';
+            ownMessage.innerHTML = '#You:' + '<br>' + valueToSend;
+            document.getElementById('chat').appendChild(ownMessage);
         }
     }
 
@@ -53,7 +57,10 @@
     wsClient.onmessage = function (ev) {
         console.log("Message received");
         console.log(ev);
-        document.querySelector('#chat').innerHTML += "<p>" + ev.data + "</p>";
+        let receivedMessage = document.createElement('div');
+        receivedMessage.style.background = '#EAE7DC';
+        receivedMessage.innerHTML = "<p>" + ev.data + "</p>";
+        document.getElementById('chat').appendChild(receivedMessage);
     }
 </script>
 
