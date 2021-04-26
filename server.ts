@@ -13,5 +13,13 @@ wss.on('connection', (client: WebSocket) => {
     });
     client.send('Welcome to the Server!')
 
+    setInterval(() => {
+        if (client.isAlive === false){
+            client.terminate();
+        }
+
+        client.ping();
+        client.isAlive = false;
+    }, 15000);
 });
 
