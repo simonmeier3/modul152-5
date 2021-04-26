@@ -3,26 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Web Chat</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-
-<div class="form-group">
-    <label for="">Meine Nachricht</label>
-    <input type="text" id="my-message">
-</div>
-<button onclick="sendMessageToServer()">Senden</button>
 
 <div id="chat">
 
 </div>
 
+<link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<div id="textEditor">
+    <textarea id="content"></textarea>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+
+<div id="controls">
+    <label>Username:</label>
+    <input type="text" id="username">
+    <button id="sendButton" onclick="sendMessageToServer()">Senden</button>
+</div>
+
+
 <script>
+    new FroalaEditor(document.getElementById('content'));
+
     let wsClient = new WebSocket('ws://localhost:8080');
 
     function sendMessageToServer(){
-        const valueToSend = document.querySelector('#my-message').value;
-        wsClient.send(valueToSend);
+        let username = document.getElementById('username').value;
+        const valueToSend = document.querySelector('#content').value;
+        if(username === null || username === ''){
+            alert('Please enter a username!')
+        }
+        if(valueToSend === null || valueToSend === ''){
+            alert('Please enter something to send!')
+        }
+        else {
+            let message = '#' + username + ':' + '<br>' + valueToSend;
+            wsClient.send(message);
+            document.querySelector('#chat').innerHTML += '#You:' + '<br>' + valueToSend;
+        }
     }
+
 
     wsClient.onopen = function (ev) {
         console.log("Connection established");
@@ -31,7 +53,7 @@
     wsClient.onmessage = function (ev) {
         console.log("Message received");
         console.log(ev);
-        document.querySelector('#chat').innerHTML += "<p>" + ev.data + "</p><br>";
+        document.querySelector('#chat').innerHTML += "<p>" + ev.data + "</p>";
     }
 </script>
 

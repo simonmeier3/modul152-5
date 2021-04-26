@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "froala-editor": "*",
     "typescript": "^4.2.4",
     "ws": "^7.4.4"
   },

@@ -14,3 +14,4 @@ wss.on('connection', (client: WebSocket) => {
     client.send('Herzlich Willkommen!')
 
 });
+
