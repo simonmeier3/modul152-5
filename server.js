@@ -10,6 +10,6 @@ wss.on('connection', function (client) {
             .filter(function (connectedClient) { return connectedClient !== client; })
             .forEach(function (connectedClient) { return connectedClient.send(data); });
     });
-    client.send('Herzlich Willkommen!');
+    client.send('Welcome to the Server!');
 });
 //# sourceMappingURL=server.js.map

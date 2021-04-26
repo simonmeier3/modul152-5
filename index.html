@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
+<h1>Web Chat</h1>
 
 <div id="chat" contenteditable="true">
 
@@ -20,7 +21,7 @@
 <div id="controls">
     <label>Username:</label>
     <input type="text" id="username">
-    <button id="sendButton" onclick="sendMessageToServer()">Senden</button>
+    <button id="sendButton" onclick="sendMessageToServer()">Send</button>
 </div>
 
 
@@ -42,10 +43,14 @@
             let message = '#' + username + ':' + '<br>' + valueToSend;
             wsClient.send(message);
             let ownMessage = document.createElement('div');
-            ownMessage.style.background = '#EAE7DC';
+            ownMessage.style.border = '2px solid black';
+            ownMessage.style.background = '#85C1E9';
             ownMessage.style.textAlign = 'right';
+            ownMessage.style.padding = '5px';
             ownMessage.innerHTML = '#You:' + '<br>' + valueToSend;
             document.getElementById('chat').appendChild(ownMessage);
+            document.querySelector('#chat').innerHTML += '<br>';
+            document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
         }
     }
 
@@ -58,9 +63,13 @@
         console.log("Message received");
         console.log(ev);
         let receivedMessage = document.createElement('div');
-        receivedMessage.style.background = '#EAE7DC';
+        receivedMessage.style.background = '#D6EAF8';
         receivedMessage.innerHTML = "<p>" + ev.data + "</p>";
+        receivedMessage.style.border = '2px solid black';
+        receivedMessage.style.padding = '5px';
         document.getElementById('chat').appendChild(receivedMessage);
+        document.querySelector('#chat').innerHTML += '<br>';
+        document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
     }
 </script>
 

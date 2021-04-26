@@ -11,7 +11,7 @@ wss.on('connection', (client: WebSocket) => {
            .filter(connectedClient => connectedClient !== client)
            .forEach(connectedClient => connectedClient.send(data));
     });
-    client.send('Herzlich Willkommen!')
+    client.send('Welcome to the Server!')
 
 });
 
