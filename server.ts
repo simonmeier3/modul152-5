@@ -4,22 +4,33 @@ const wss = new WebSocket.Server({
     port: 8080,
 });
 
-wss.on('connection', (client: WebSocket) => {
+export interface ExtendedWebSocket extends WebSocket {
+    isAlive: boolean;
+}
 
+wss.on('connection', (client: ExtendedWebSocket) => {
+
+    client.isAlive = true;
     client.on('message', data => {
-       Array.from(wss.clients)
-           .filter(connectedClient => connectedClient !== client)
-           .forEach(connectedClient => connectedClient.send(data));
+        Array.from(wss.clients)
+            .filter(connectedClient => connectedClient !== client)
+            .forEach(connectedClient => connectedClient.send(data));
     });
     client.send('Welcome to the Server!')
 
-    setInterval(() => {
-        if (client.isAlive === false){
-            client.terminate();
-        }
+    client.on('pong', () => {
+        client.isAlive = true;
+    });
 
-        client.ping();
-        client.isAlive = false;
-    }, 15000);
 });
 
+setInterval(function ping() {
+    wss.clients.forEach(function each(ws: ExtendedWebSocket) {
+        if (ws.isAlive === false) {
+            ws.terminate()
+            console.log("client terminated")
+        }
+        ws.isAlive = false;
+        ws.ping();
+    });
+}, 15000)
